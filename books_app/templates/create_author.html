@@ -3,7 +3,13 @@
 {% block content %}
 
 <p>Author creation form.</p>
+<form action="" method="post">
+{{ af.csrf_token }}
+{{ af.name.label }}
+{{ af.name() }}
+{{ af.biography.label }}
+{{ af.biography() }}
+{{ af.author_form_submit() }}
 
-<!-- TODO: Add a <form> element here and use the form variable to show the labels & fields -->
-
+</form>
 {% endblock %}

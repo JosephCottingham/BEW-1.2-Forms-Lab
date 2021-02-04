@@ -43,27 +43,30 @@ def create_book():
 
 @main.route('/create_author', methods=['GET', 'POST'])
 def create_author():
-    # TODO: Make an AuthorForm instance
-
-    # TODO: If the form was submitted and is valid, create a new Author object
-    # and save to the database, then flash a success message to the user and
-    # redirect to the homepage
-
-    # TODO: Send the form object to the template, and use it to render the form
+    af=AuthorForm()
+    if af.author_form_submit.data and af.validate_on_submit():
+        author=Author()
+        author.name=af.name.data
+        author.biography=af.biography.data
+        db.session.add(author)
+        db.session.commit()
+    
     # fields
-    return render_template('create_author.html')
+    return render_template('create_author.html', af=af)
 
 @main.route('/create_genre', methods=['GET', 'POST'])
 def create_genre():
-    # TODO: Make a GenreForm instance
 
-    # TODO: If the form was submitted and is valid, create a new Genre object
-    # and save to the database, then flash a success message to the user and
-    # redirect to the homepage
+    gf = GenreForm()
+    if gf.genre_form_submit.data and gf.validate_on_submit():
+        genre = Genre(
+            name=gf.name.data
+        )
+        db.session.add(genre)
+        db.session.commit()
 
-    # TODO: Send the form object to the template, and use it to render the form
     # fields
-    return render_template('create_genre.html')
+    return render_template('create_genre.html', gf=gf)
 
 @main.route('/create_user', methods=['GET', 'POST'])
 def create_user():
@@ -75,17 +78,20 @@ def book_detail(book_id):
     book = Book.query.get(book_id)
     form = BookForm(obj=book)
 
-    # TODO: If the form was submitted and is valid, update the fields in the 
-    # Book object and save to the database, then flash a success message to the 
-    # user and redirect to the book detail page
+    if form.submit.data and form.validate_on_submit():
+        book.title=form.title.data
+        book.publish_date=form.publish_date.data
+        book.author=form.author.data
+        book.audience=form.audience.data
+        book.genres=form.genres.data
+        db.session.commit()
 
     return render_template('book_detail.html', book=book, form=form)
 
 @main.route('/profile/<username>')
 def profile(username):
-    # TODO: Make a query for the user with the given username, and send to the
-    # template
+    user = db.session.query(User).filter_by(username=username).first()
 
     # STRETCH CHALLENGE: Add ability to modify a user's username or favorite 
     # books
-    return render_template('profile.html', username=username)
+    return render_template('profile.html', username=username, user=user)

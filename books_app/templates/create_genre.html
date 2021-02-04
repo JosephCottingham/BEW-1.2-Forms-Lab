@@ -3,7 +3,10 @@
 {% block content %}
 
 <p>Genre creation form.</p>
-
-<!-- TODO: Add a <form> element here and use the form variable to show the labels & fields -->
-
+<form action="" method="post">
+    {{ af.csrf_token }}
+    {{ af.name.label }}
+    {{ gf.name() }}
+    {{ gf.genre_form_submit() }}
+</form>
 {% endblock %}

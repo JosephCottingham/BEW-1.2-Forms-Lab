@@ -12,10 +12,9 @@ Welcome to {{ username }}'s profile.
     {{ username }}'s favorite books are:
 
     <ul>
-        <li>Your</li>
-        <li>Favorites</li>
-        <li>Go</li>
-        <li>Here</li>
+        {% for book in user.favorite_books %}
+        <li>{{ book.title }}</li>
+        {% endfor %}
     </ul>
 </p>
 
